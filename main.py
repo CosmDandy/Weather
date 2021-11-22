@@ -2,10 +2,16 @@ import datetime
 import os
 import sched
 import time
-
 import pandas
 import requests
 from bs4 import BeautifulSoup
+
+
+def to_int(n, start, end):
+    x = []
+    for i in range(len(n)):
+        x.append(n[i])
+    return "".join(x[start:end])
 
 
 def get_data():
@@ -24,9 +30,9 @@ def get_data():
     lowest_temp = soup.find_all('span', {'data-testid': 'TemperatureValue'})[2].text
     w_condition = soup.find('div', {'class': 'CurrentConditions--phraseValue--2Z18W'}).text
     humidity = soup.find('span', {'data-testid': 'PercentageValue'}).text
-    visibility = soup.find('span', {'data-testid': 'VisibilityValue'}).text
-    pressure = soup.find('span', {'data-testid': 'PressureValue'}).text
-    wind_speed = soup.find('span', {'data-testid': 'Wind'}).text.split()[1]
+    visibility = to_int(soup.find('span', {'data-testid': 'VisibilityValue'}).text, 0, 4)
+    pressure = to_int(soup.find('span', {'data-testid': 'PressureValue'}).text, 8, 14)
+    wind_speed = to_int(soup.find('span', {'data-testid': 'Wind'}).text.split()[1], 9, 11)
     dew_point = soup.find_all('div', {'data-testid': 'wxData'})[3].text
     uv_index = soup.find('span', {'data-testid': 'UVIndexValue'}).text.split()[0]
     moon_phase = soup.find_all('div', {'data-testid': 'wxData'})[7].text
@@ -56,13 +62,11 @@ def get_data():
     df.to_csv('date.csv')
 
 
-s = sched.scheduler(time.time, time.sleep)
-
-
 def do_something(sc):
     get_data()
     s.enter(5, 1, do_something, (sc,))
 
 
+s = sched.scheduler(time.time, time.sleep)
 s.enter(5, 1, do_something, (s,))
 s.run()
