@@ -38,7 +38,7 @@ def get_data():
     moon_phase = soup.find_all('div', {'data-testid': 'wxData'})[7].text
     sunrise_time = soup.find_all('p', {'class': 'SunriseSunset--dateValue--N2p5B'})[0].text
     sunset_time = soup.find_all('p', {'class': 'SunriseSunset--dateValue--N2p5B'})[1].text
-    print("now_temp", now_temp)
+    """print("now_temp", now_temp)
     print("feels_like_temp", feels_like_temp)
     print("highest_temp", highest_temp)
     print("lowest_temp", lowest_temp)
@@ -51,7 +51,7 @@ def get_data():
     print("uv_index", uv_index)
     print("moon_phase", moon_phase)
     print("sunset_time", sunset_time)
-    print("sunrise_time", sunrise_time)
+    print("sunrise_time", sunrise_time)"""
     if os.stat("date.json").st_size == 0:
         df = pandas.DataFrame([[now_temp, feels_like_temp, highest_temp, lowest_temp, w_condition, humidity, visibility, pressure, wind_speed, dew_point, uv_index, moon_phase, sunset_time, sunrise_time]],
                               columns=["now_temp", "feels_like_temp", "highest_temp", "lowest_temp", "w_condition", "humidity", "visibility", "pressure", "wind_speed", "dew_point", "uv_index", "moon_phase", "sunset_time", "sunrise_time"])
@@ -64,9 +64,9 @@ def get_data():
 
 def do_something(sc):
     get_data()
-    s.enter(5, 1, do_something, (sc,))
+    s.enter(15, 1, do_something, (sc,))
 
 
 s = sched.scheduler(time.time, time.sleep)
-s.enter(5, 1, do_something, (s,))
+s.enter(15, 1, do_something, (s,))
 s.run()
