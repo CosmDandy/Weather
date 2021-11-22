@@ -60,6 +60,7 @@ def get_data():
         df.loc[str(now_datetime)] = [now_temp, feels_like_temp, highest_temp, lowest_temp, w_condition, humidity, visibility, pressure, wind_speed, dew_point, uv_index, moon_phase, sunset_time, sunrise_time]
     df.to_json('date.json')
     df.to_csv('date.csv')
+    print(now_datetime)
 
 
 def do_something(sc):
