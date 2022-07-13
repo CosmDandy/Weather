@@ -38,26 +38,31 @@ def get_data():
     moon_phase = soup.find_all('div', {'data-testid': 'wxData'})[7].text
     sunrise_time = soup.find_all('p', {'class': 'SunriseSunset--dateValue--N2p5B'})[0].text
     sunset_time = soup.find_all('p', {'class': 'SunriseSunset--dateValue--N2p5B'})[1].text
-    """print("now_temp", now_temp)
-    print("feels_like_temp", feels_like_temp)
-    print("highest_temp", highest_temp)
-    print("lowest_temp", lowest_temp)
-    print("w_condition", w_condition)
-    print("humidity", humidity)
-    print("visibility", visibility)
-    print("pressure", pressure)
-    print("wind_speed", wind_speed)
-    print("dew_point", dew_point)
-    print("uv_index", uv_index)
-    print("moon_phase", moon_phase)
-    print("sunset_time", sunset_time)
-    print("sunrise_time", sunrise_time)"""
+    # print("now_temp", now_temp)
+    # print("feels_like_temp", feels_like_temp)
+    # print("highest_temp", highest_temp)
+    # print("lowest_temp", lowest_temp)
+    # print("w_condition", w_condition)
+    # print("humidity", humidity)
+    # print("visibility", visibility)
+    # print("pressure", pressure)
+    # print("wind_speed", wind_speed)
+    # print("dew_point", dew_point)
+    # print("uv_index", uv_index)
+    # print("moon_phase", moon_phase)
+    # print("sunset_time", sunset_time)
+    # print("sunrise_time", sunrise_time)
     if os.stat("date.json").st_size == 0:
-        df = pandas.DataFrame([[now_temp, feels_like_temp, highest_temp, lowest_temp, w_condition, humidity, visibility, pressure, wind_speed, dew_point, uv_index, moon_phase, sunset_time, sunrise_time]],
-                              columns=["now_temp", "feels_like_temp", "highest_temp", "lowest_temp", "w_condition", "humidity", "visibility", "pressure", "wind_speed", "dew_point", "uv_index", "moon_phase", "sunset_time", "sunrise_time"])
+        df = pandas.DataFrame([[now_temp, feels_like_temp, highest_temp, lowest_temp, w_condition, humidity, visibility,
+                                pressure, wind_speed, dew_point, uv_index, moon_phase, sunset_time, sunrise_time]],
+                              columns=["now_temp", "feels_like_temp", "highest_temp", "lowest_temp", "w_condition",
+                                       "humidity", "visibility", "pressure", "wind_speed", "dew_point", "uv_index",
+                                       "moon_phase", "sunset_time", "sunrise_time"])
     else:
         df = pandas.read_json('date.json')
-        df.loc[str(now_datetime)] = [now_temp, feels_like_temp, highest_temp, lowest_temp, w_condition, humidity, visibility, pressure, wind_speed, dew_point, uv_index, moon_phase, sunset_time, sunrise_time]
+        df.loc[str(now_datetime)] = [now_temp, feels_like_temp, highest_temp, lowest_temp, w_condition, humidity,
+                                     visibility, pressure, wind_speed, dew_point, uv_index, moon_phase, sunset_time,
+                                     sunrise_time]
     df.to_json('date.json')
     df.to_csv('date.csv')
     print(now_datetime)
